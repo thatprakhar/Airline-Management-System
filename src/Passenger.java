@@ -24,4 +24,8 @@ public class Passenger implements Serializable {
             this.boardingPass = boardingPass;
         }
     }
+
+    public String toString() {
+        return this.lastName.charAt(0) + ". " + this.firstName + ", " + this.age;
+    }
 }

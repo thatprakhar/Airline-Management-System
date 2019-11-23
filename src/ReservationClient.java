@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 import java.io.IOException;
 import java.net.ConnectException;
 import java.net.Socket;
@@ -37,7 +38,8 @@ public class ReservationClient {
             if (y == 1) {
                 FirstView firstView = new FirstView();
                 new FirstViewController(parent, firstView);
-                parent.add(firstView.getPanel());
+                parent.setContentPane(firstView.getPanel());
+                parent.setSize(600,600);
                 parent.setVisible(true);
             }
         }

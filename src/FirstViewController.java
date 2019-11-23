@@ -1,4 +1,5 @@
 import javax.swing.*;
+import java.awt.*;
 
 
 public class FirstViewController {
@@ -9,11 +10,13 @@ public class FirstViewController {
         this.jFrame = jFrame;
         this.firstView = firstView;
         this.firstView.getBookAFlightButton().addActionListener(e -> bookFlightSemantics());
+        jFrame.pack();
     }
 
     public void bookFlightSemantics() {
-        JOptionPane.showMessageDialog(null,"Book a flight pressed");
         this.jFrame.getContentPane().removeAll();
-        jFrame.setContentPane(new SecondView().getPanel1());
+        SecondView secondView = new SecondView();
+        new SecondViewController(this.jFrame, secondView);
+        jFrame.setContentPane(secondView.getPanel1());
     }
 }

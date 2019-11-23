@@ -10,7 +10,9 @@ public class FirstView {
     private ImageIcon imageIcon;
 
     public FirstView() {
-        panel.setSize(400, 400);
+        this.panel = new JPanel(new GridLayout());
+        this.jLabel = new JLabel("");
+        panel.setSize(600, 600);
     }
 
     public JPanel getPanel() {

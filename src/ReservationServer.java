@@ -5,9 +5,15 @@ import java.net.Socket;
 public class ReservationServer {
 
     private ServerSocket serverSocket;
+    private Alaska alaska;
+    private Delta delta;
+    private Southwest southwest;
 
     public ReservationServer() throws IOException {
         this.serverSocket = new ServerSocket(0);
+        alaska = new Alaska();
+        delta = new Delta();
+        southwest = new Southwest();
     }
 
     public void serveClients() {

@@ -3,14 +3,22 @@ import java.awt.*;
 
 public class SecondView {
     private JPanel panel1;
-    private JButton noButton;
-    private JButton yesButton;
+    private JButton exitButton;
+    private JButton yesIWantToButton;
 
     public SecondView() {
-        panel1.setSize(400,400);
+        this.panel1.setSize(600,600);
     }
 
     public JPanel getPanel1() {
         return panel1;
+    }
+
+    public JButton getExitButton() {
+        return exitButton;
+    }
+
+    public JButton getYesIWantToButton() {
+        return yesIWantToButton;
     }
 }

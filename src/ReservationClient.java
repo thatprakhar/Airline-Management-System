@@ -11,7 +11,6 @@ public class ReservationClient {
         JFrame parent = new JFrame(TITLE);
         parent.setSize(500,500);
         parent.getDefaultCloseOperation();
-        parent.setVisible(true);
 
 
         String host = JOptionPane.showInputDialog(parent, "What is your hostname you'd like to connect to?", "Hostname?", JOptionPane.PLAIN_MESSAGE);
@@ -28,9 +27,20 @@ public class ReservationClient {
             }
         }
         ImageIcon purdue_icon = new ImageIcon("purdue_icon.png");
+        int y;
         String[] options = {"Exit", "Book a Flight"};
-        JOptionPane.showOptionDialog(parent, "<html> <b> Welcome to the Purdue University Airline <br> Reservation Management System! </b> <br>  </html>", TITLE, 0, JOptionPane.PLAIN_MESSAGE, purdue_icon, options, null);
-        String[] options2 = {"Exit", "Yes, I want to book a flight."};
-        JOptionPane.showOptionDialog(parent, "<html> <b> Do you want to book flight today? <html>", TITLE, 0, JOptionPane.PLAIN_MESSAGE, null, options2, null);
+        y = JOptionPane.showOptionDialog(parent, "<html> <b> Welcome to the Purdue University Airline <br> Reservation Management System! </b> <br>  </html>", TITLE, 0, JOptionPane.PLAIN_MESSAGE, purdue_icon, options, null);
+
+        if (y == 1) {
+            String[] options2 = {"Exit", "Yes, I want to book a flight."};
+            y = JOptionPane.showOptionDialog(parent, "<html> <b> Do you want to book flight today? <html>", TITLE, 0, JOptionPane.PLAIN_MESSAGE, null, options2, null);
+            if (y == 1) {
+                FirstView firstView = new FirstView();
+                new FirstViewController(parent, firstView);
+                parent.add(firstView.getPanel());
+                parent.setVisible(true);
+            }
+        }
+
     }
 }

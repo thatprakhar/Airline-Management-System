@@ -16,9 +16,11 @@ public class ReservationClient {
 
         String host = JOptionPane.showInputDialog(parent, "What is your hostname you'd like to connect to?", "Hostname?", JOptionPane.PLAIN_MESSAGE);
         int port;
+
         boolean connected = false;
 
         while (!connected) {
+
             try {
                 port = Integer.parseInt(JOptionPane.showInputDialog(parent, "What is the port you'd like to connect to?", "Port?", JOptionPane.PLAIN_MESSAGE));
                 Socket clientSocket = new Socket(host, port);

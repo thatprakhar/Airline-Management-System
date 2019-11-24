@@ -3,7 +3,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.BitSet;
+
 
 public final class Delta implements Airline {
     private ArrayList<Passenger> passengers;
@@ -35,7 +35,9 @@ public final class Delta implements Airline {
 
     @Override
     public String airlineDetails() {
-        return null;
+        return "Delta Airlines is proud to be one of the five" +
+                " premier Airlines at Purdue University.\n We are offer exceptional services, with free limited WiFi for all customers." +
+                "\n Passengers who use T-Mobile as a cellphone carrier get additional benefits";
     }
 
     @Override

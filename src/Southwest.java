@@ -1,2 +1,62 @@
-public class Southwest implements Airline {
+import java.io.*;
+import java.nio.Buffer;
+import java.util.ArrayList;
+
+public final class Southwest implements Airline {
+    private ArrayList<Passenger> passengers;
+    private int currentCapacity;
+    private Gate gate;
+    private File file;
+    private final int MAX_CAP = 100;
+
+    public Southwest() {
+        this.passengers = new ArrayList<Passenger>();
+        currentCapacity = 0;
+        this.gate = new Gate('C');
+    }
+
+    @Override
+    public void addPassenger(Passenger passenger) throws IOException {
+        this.passengers.add(passenger);
+        writeIntoFile(file, passenger);
+        this.currentCapacity++;
+    }
+
+    @Override
+    public ArrayList<String> returnPassengerList() {
+        ArrayList<String> passengerList = new ArrayList<String>();
+        for (Passenger p : this.passengers) {
+            passengerList.add(p.toString());
+        }
+        return passengerList;
+    }
+
+    @Override
+    public String airlineDetails() {
+        return null;
+    }
+
+    @Override
+    public int currentCapacity() {
+        return this.currentCapacity;
+    }
+
+    @Override
+    public void writeIntoFile(File file, Passenger p) throws IOException {
+
+        BufferedWriter bfw = new BufferedWriter(new FileWriter(file));
+
+        bfw.write(p.toString());
+
+    }
+
+    @Override
+    public void readFromFile(File file) {
+
+    }
+
+    @Override
+    public Gate getGate() {
+        return this.gate;
+    }
 }

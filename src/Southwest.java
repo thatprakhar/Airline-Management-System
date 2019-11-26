@@ -1,5 +1,4 @@
 import java.io.*;
-import java.nio.Buffer;
 import java.util.ArrayList;
 
 public final class Southwest implements Airline {
@@ -7,7 +6,6 @@ public final class Southwest implements Airline {
     private int currentCapacity;
     private Gate gate;
     private File file;
-    private final int MAX_CAP = 100;
 
     public Southwest() {
         this.passengers = new ArrayList<Passenger>();
@@ -17,16 +15,18 @@ public final class Southwest implements Airline {
 
     @Override
     public void addPassenger(Passenger passenger) throws IOException {
-        this.passengers.add(passenger);
-        writeIntoFile(file, passenger);
-        this.currentCapacity++;
+        if (currentCapacity < MAX_CAP) {
+            this.passengers.add(passenger);
+            writeIntoFile(file, passenger);
+            this.currentCapacity++;
+        }
     }
 
     @Override
-    public ArrayList<String> returnPassengerList() {
-        ArrayList<String> passengerList = new ArrayList<String>();
+    public String returnPassengerList() {
+        String passengerList ="";
         for (Passenger p : this.passengers) {
-            passengerList.add(p.toString());
+            passengerList += p.toString() + "\n";
         }
         return passengerList;
     }

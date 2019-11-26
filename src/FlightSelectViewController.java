@@ -26,7 +26,9 @@ public class FlightSelectViewController {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
                     flightDetails = new JFrame();
-                    flightDetails.setContentPane(new FlightDetailView(flightSelectView).getMainPanel());
+                    FlightDetailView flightDetailView = new FlightDetailView(flightDetails, flightSelectView);
+                    flightDetails.setContentPane(flightDetailView.getMainPanel());
+                    new FlightDetailViewController(flightDetailView);
                     flightDetails.setSize(250, 250);
                     flightDetails.setVisible(true);
                 }
@@ -59,5 +61,7 @@ public class FlightSelectViewController {
         this.mainFrame.setVisible(false);
     }
 
-
+    public JFrame getFlightDetails() {
+        return flightDetails;
+    }
 }

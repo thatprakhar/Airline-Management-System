@@ -15,12 +15,17 @@ public class FirstView {
     }
 
     public void createGUI() {
+        //initialising the panels
         this.panel = new JPanel(new BorderLayout());
         this.lowerPanel = new JPanel(new BorderLayout());
+
+        // assigning the components
         this.jLabel = new JLabel("<html> <b> <font size=\"8\">Welcome to Purdue Airline Management System </font> </b></html>");
         this.imageLabel = new JLabel(new ImageIcon("Unknown.png"));
         this.bookAFlightButton = new JButton("Book a flight");
         this.exitButton = new JButton("Exit");
+
+        //adding the components
         panel.add(jLabel, BorderLayout.NORTH);
         panel.add(imageLabel, BorderLayout.CENTER);
         lowerPanel.add(bookAFlightButton, BorderLayout.EAST);

@@ -19,6 +19,7 @@ public class ReservationClient {
 
         boolean connected = false;
 
+
         while (!connected) {
 
             try {

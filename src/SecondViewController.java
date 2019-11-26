@@ -17,6 +17,7 @@ public class SecondViewController {
         FlightSelectView flightSelectView = new FlightSelectView();
         new FlightSelectViewController(this.jFrame, flightSelectView);
         this.jFrame.setContentPane(flightSelectView.getMainPanel());
+        flightSelectView.getFlightSelection().requestFocus();
     }
 
     public void exitButtonSemantics() {

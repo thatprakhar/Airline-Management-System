@@ -49,4 +49,8 @@ public class FlightSelectView {
     public JLabel getAirlineDetail() {
         return this.airlineDetail;
     }
+
+    public JButton getExit() {
+        return exit;
+    }
 }

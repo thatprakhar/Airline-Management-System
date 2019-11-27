@@ -14,7 +14,7 @@ public class SecondViewController {
 
     public void bookFLightSemantics() {
         this.jFrame.getContentPane().removeAll();
-        FlightSelectView flightSelectView = new FlightSelectView();
+        FlightSelectView flightSelectView = new FlightSelectView(this.secondView.getClientSocket());
         new FlightSelectViewController(this.jFrame, flightSelectView);
         this.jFrame.setContentPane(flightSelectView.getMainPanel());
         flightSelectView.getFlightSelection().requestFocus();

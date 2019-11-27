@@ -15,20 +15,23 @@ public final class Delta implements Airline {
         this.passengers = new ArrayList<Passenger>();
         currentCapacity = 0;
         this.gate = new Gate('B');
+        this.file = new File("src/reservation.txt");
     }
 
     @Override
     public void addPassenger(Passenger passenger) throws IOException {
-        this.passengers.add(passenger);
-        this.writeIntoFile(file, passenger);
-        this.currentCapacity++;
+        if (currentCapacity < MAX_CAP) {
+            this.passengers.add(passenger);
+            this.writeIntoFile(passenger);
+            this.currentCapacity++;
+        }
     }
 
     @Override
-    public ArrayList<String> returnPassengerList() {
-        ArrayList<String> passengerList = new ArrayList<String>();
+    public String returnPassengerList() {
+        String passengerList = "";
         for (Passenger p : this.passengers) {
-            passengerList.add(p.toString());
+            passengerList += (p.toString()) + "\n";
         }
         return passengerList;
     }
@@ -46,7 +49,7 @@ public final class Delta implements Airline {
     }
 
     @Override
-    public void writeIntoFile(File file, Passenger p) throws IOException {
+    public void writeIntoFile(Passenger p) throws IOException {
         BufferedWriter bfw = new BufferedWriter(new FileWriter(file));
         bfw.write(p.toString());
     }

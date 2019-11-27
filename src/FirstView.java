@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.Socket;
 
 public class FirstView {
     private JPanel panel;
@@ -8,19 +9,26 @@ public class FirstView {
     private JPanel lowerPanel;
     private JButton exitButton;
     private JButton bookAFlightButton;
+    private Socket clientSocket;
 
 
-    public FirstView() {
+    public FirstView(Socket clientSocket) {
+        this.clientSocket = clientSocket;
         createGUI();
     }
 
     public void createGUI() {
+        //initialising the panels
         this.panel = new JPanel(new BorderLayout());
         this.lowerPanel = new JPanel(new BorderLayout());
+
+        // assigning the components
         this.jLabel = new JLabel("<html> <b> <font size=\"8\">Welcome to Purdue Airline Management System </font> </b></html>");
         this.imageLabel = new JLabel(new ImageIcon("Unknown.png"));
         this.bookAFlightButton = new JButton("Book a flight");
         this.exitButton = new JButton("Exit");
+
+        //adding the components
         panel.add(jLabel, BorderLayout.NORTH);
         panel.add(imageLabel, BorderLayout.CENTER);
         lowerPanel.add(bookAFlightButton, BorderLayout.EAST);
@@ -40,5 +48,9 @@ public class FirstView {
 
     public JButton getExitButton() {
         return exitButton;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 }

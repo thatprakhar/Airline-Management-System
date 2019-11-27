@@ -1,6 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.Socket;
 
 
 public class FlightDetailView {
@@ -9,38 +12,23 @@ public class FlightDetailView {
     private JPanel mainPanel;
     private Airline airline;
     private JTextArea passengerView;
-    private JPanel topPanel;
     private JButton exit;
-    private JPanel lowerPanel;
     private FlightSelectView flightSelectView;
+    private Socket clientSocket;
 
 
-    public FlightDetailView(JFrame mainFrame, FlightSelectView flightSelectView) {
+    public FlightDetailView(JFrame mainFrame, FlightSelectView flightSelectView, Socket clientSocket) throws IOException, ClassNotFoundException {
+        this.clientSocket = clientSocket;
         this.mainFrame = mainFrame;
         this.flightSelectView = flightSelectView;
         this.airlineName = new JLabel((String) flightSelectView.getFlightSelection().getSelectedItem());
-
-        switch (airlineName.getText()) {
-            case "Alaska":
-                this.airline = new Alaska();
-                break;
-            case "Delta":
-                this.airline = new Delta();
-
-                break;
-            case "Southwest":
-                this.airline = new Southwest();
-                break;
-        }
-
+        this.airline = (Airline) new ObjectInputStream(clientSocket.getInputStream()).readObject();
         createGUI();
     }
 
     public void createGUI() {
         //initialising the panels
         this.mainPanel = new JPanel(new BorderLayout());
-        this.topPanel = new JPanel(new BorderLayout());
-        this.lowerPanel = new JPanel(new BorderLayout());
 
         //assigning the components
         this.exit = new JButton("Exit");
@@ -50,7 +38,7 @@ public class FlightDetailView {
         this.passengerView.setText(airline.returnPassengerList());
         this.passengerView.setBorder(BorderFactory.createLineBorder(Color.BLACK));
         this.mainPanel.add(passengerView, BorderLayout.CENTER);
-        airlineName.setText(airlineName.getText() + "Airlines");
+        airlineName.setText(airlineName.getText() + " Airlines " + this.airline.currentCapacity() + "/100");
 
         //adding the components
         this.mainPanel.add(airlineName, BorderLayout.NORTH);
@@ -73,5 +61,9 @@ public class FlightDetailView {
 
     public JFrame getMainFrame() {
         return this.mainFrame;
+    }
+
+    public Socket getClientSocket() {
+        return this.clientSocket;
     }
 }

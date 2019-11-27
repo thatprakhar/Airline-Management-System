@@ -1,5 +1,5 @@
 import javax.swing.*;
-import java.awt.*;
+
 
 
 public class FirstViewController {
@@ -16,7 +16,7 @@ public class FirstViewController {
 
     public void bookFlightSemantics() {
         this.jFrame.getContentPane().removeAll();
-        SecondView secondView = new SecondView();
+        SecondView secondView = new SecondView(this.firstView.getClientSocket());
         new SecondViewController(this.jFrame, secondView);
         jFrame.setContentPane(secondView.getPanel1());
     }

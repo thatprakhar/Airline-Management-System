@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.Socket;
 
 
 public class SecondView {
@@ -8,8 +9,10 @@ public class SecondView {
     private JButton exitButton;
     private JButton yesIWantToButton;
     private JPanel lowerPanel;
+    private Socket clientSocket;
 
-    public SecondView() {
+    public SecondView(Socket clientSocket) {
+        this.clientSocket = clientSocket;
         createGUI();
     }
 
@@ -42,5 +45,9 @@ public class SecondView {
 
     public JButton getYesIWantToButton() {
         return yesIWantToButton;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 }

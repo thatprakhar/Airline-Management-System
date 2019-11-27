@@ -1,6 +1,7 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.IOException;
 
 public class FlightSelectViewController {
     private FlightSelectView flightSelectView;
@@ -14,6 +15,7 @@ public class FlightSelectViewController {
         this.flightSelectView.getFlightSelection().requestFocus();
         airline = (String) this.flightSelectView.getFlightSelection().getSelectedItem();
         this.flightSelectView.getFlightSelection().addActionListener(e -> updateTextSemantics());
+        this.flightSelectView.getChoose().addActionListener(e -> bookFlightSemantics());
 
         this.flightSelectView.getFlightSelection().addKeyListener(new KeyListener() {
 
@@ -26,7 +28,13 @@ public class FlightSelectViewController {
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_BACK_SLASH) {
                     flightDetails = new JFrame();
-                    FlightDetailView flightDetailView = new FlightDetailView(flightDetails, flightSelectView);
+                    FlightDetailView flightDetailView = null;
+                    try {
+                        flightDetailView = new FlightDetailView(flightDetails, flightSelectView, flightSelectView.getClientSocket());
+                    } catch (IOException | ClassNotFoundException ex) {
+                        ex.printStackTrace();
+                    }
+                    assert flightDetailView != null;
                     flightDetails.setContentPane(flightDetailView.getMainPanel());
                     new FlightDetailViewController(flightDetailView);
                     flightDetails.setSize(250, 250);
@@ -55,6 +63,14 @@ public class FlightSelectViewController {
         }
 
         this.flightSelectView.getAirlineDetail().setText(details);
+    }
+
+    public void bookFlightSemantics() {
+
+        this.mainFrame.getContentPane().removeAll();
+        FlightBookView flightBookView = new FlightBookView(flightSelectView, new Alaska(), this.flightSelectView.getClientSocket());
+        new FlightBookViewController(this.mainFrame, flightBookView);
+        this.mainFrame.setContentPane(flightBookView.getMainPanel());
     }
 
     public void exitButtonSemantics() {

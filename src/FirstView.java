@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.Socket;
 
 public class FirstView {
     private JPanel panel;
@@ -8,9 +9,11 @@ public class FirstView {
     private JPanel lowerPanel;
     private JButton exitButton;
     private JButton bookAFlightButton;
+    private Socket clientSocket;
 
 
-    public FirstView() {
+    public FirstView(Socket clientSocket) {
+        this.clientSocket = clientSocket;
         createGUI();
     }
 
@@ -45,5 +48,9 @@ public class FirstView {
 
     public JButton getExitButton() {
         return exitButton;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 }

@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.net.Socket;
 
 
 public class FlightSelectView {
@@ -12,8 +13,10 @@ public class FlightSelectView {
     private JButton exit;
     private JButton choose;
     private JPanel midPanel;
+    private Socket clientSocket;
 
-    public FlightSelectView() {
+    public FlightSelectView(Socket clientSocket) {
+        this.clientSocket = clientSocket;
         createGUI();
     }
 
@@ -62,5 +65,13 @@ public class FlightSelectView {
 
     public JButton getExit() {
         return exit;
+    }
+
+    public JButton getChoose() {
+        return this.choose;
+    }
+
+    public Socket getClientSocket() {
+        return clientSocket;
     }
 }

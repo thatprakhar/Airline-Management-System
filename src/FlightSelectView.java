@@ -1,5 +1,8 @@
 import javax.swing.*;
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 
@@ -14,9 +17,13 @@ public class FlightSelectView {
     private JButton choose;
     private JPanel midPanel;
     private Socket clientSocket;
+    public ObjectOutputStream socketWriter;
+    public ObjectInputStream socketReader;
 
-    public FlightSelectView(Socket clientSocket) {
+    public FlightSelectView(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
+        socketReader = new ObjectInputStream(clientSocket.getInputStream());
+        socketWriter = new ObjectOutputStream(clientSocket.getOutputStream());
         createGUI();
     }
 
@@ -73,5 +80,13 @@ public class FlightSelectView {
 
     public Socket getClientSocket() {
         return clientSocket;
+    }
+
+    public ObjectInputStream getSocketReader() {
+        return this.socketReader;
+    }
+
+    public ObjectOutputStream getSocketWriter() {
+        return socketWriter;
     }
 }

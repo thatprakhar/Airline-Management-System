@@ -23,7 +23,8 @@ public class FlightDetailView {
         this.mainFrame = mainFrame;
         this.flightSelectView = flightSelectView;
         this.airlineName = new JLabel((String) flightSelectView.getFlightSelection().getSelectedItem());
-        boolean gotData = false;
+        this.airline = airline;
+        /*boolean gotData = false;
         while (!gotData) {
             try {
                 this.airline = (Airline) new ObjectInputStream(clientSocket.getInputStream()).readObject();
@@ -32,6 +33,7 @@ public class FlightDetailView {
                 e.printStackTrace();
             }
         }
+         */
         createGUI();
     }
 

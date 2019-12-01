@@ -1,6 +1,7 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.EOFException;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.Socket;
@@ -17,12 +18,20 @@ public class FlightDetailView {
     private Socket clientSocket;
 
 
-    public FlightDetailView(JFrame mainFrame, FlightSelectView flightSelectView, Socket clientSocket) throws IOException, ClassNotFoundException {
+    public FlightDetailView(JFrame mainFrame, FlightSelectView flightSelectView, Socket clientSocket, Airline airline) throws IOException, ClassNotFoundException {
         this.clientSocket = clientSocket;
         this.mainFrame = mainFrame;
         this.flightSelectView = flightSelectView;
         this.airlineName = new JLabel((String) flightSelectView.getFlightSelection().getSelectedItem());
-        this.airline = (Airline) new ObjectInputStream(clientSocket.getInputStream()).readObject();
+        boolean gotData = false;
+        while (!gotData) {
+            try {
+                this.airline = (Airline) new ObjectInputStream(clientSocket.getInputStream()).readObject();
+                gotData = true;
+            } catch (EOFException e) {
+                e.printStackTrace();
+            }
+        }
         createGUI();
     }
 

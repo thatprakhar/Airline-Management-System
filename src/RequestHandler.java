@@ -20,8 +20,19 @@ public class RequestHandler implements Runnable {
         try {
             ObjectInputStream socketReader = new ObjectInputStream(clientSocket.getInputStream());
             ObjectOutputStream socketWriter = new ObjectOutputStream(clientSocket.getOutputStream());
+            String airline = "";
+            boolean gotData = false;
+            while (!gotData) {
+                try {
+                    airline = (String) socketReader.readObject();
+                    gotData = true;
+                } catch (EOFException e) {
+                    e.printStackTrace();
+                }
+            }
 
-            String airline = (String) socketReader.readObject();
+
+            System.out.println(airline);
 
             switch (airline) {
                 case "Alaska":
@@ -37,7 +48,7 @@ public class RequestHandler implements Runnable {
                     socketWriter.flush();
                     break;
             }
-
+            socketWriter.flush();
             socketReader.close();
             socketWriter.close();
 

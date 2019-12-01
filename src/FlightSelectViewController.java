@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
+import java.io.*;
 
 public class FlightSelectViewController {
     private FlightSelectView flightSelectView;
@@ -30,7 +30,20 @@ public class FlightSelectViewController {
                     flightDetails = new JFrame();
                     FlightDetailView flightDetailView = null;
                     try {
-                        flightDetailView = new FlightDetailView(flightDetails, flightSelectView, flightSelectView.getClientSocket());
+                        ObjectOutputStream objectOutputStream = new ObjectOutputStream(flightSelectView.getClientSocket().getOutputStream());
+                        objectOutputStream.writeObject(flightSelectView.getFlightSelection().getSelectedItem());
+                        objectOutputStream.flush();
+                        boolean gotData = false;
+                        Airline airline = null;
+                        while (!gotData) {
+                            try {
+                                airline = (Airline) new ObjectInputStream(flightSelectView.getClientSocket().getInputStream()).readObject();
+                                gotData = true;
+                            } catch (EOFException eof) {
+                                eof.printStackTrace();
+                            }
+                        }
+                        flightDetailView = new FlightDetailView(flightDetails, flightSelectView, flightSelectView.getClientSocket(), airline);
                     } catch (IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }

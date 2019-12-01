@@ -1,7 +1,7 @@
 import javax.swing.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
-import java.io.IOException;
+import java.io.*;
 
 public class FlightSelectViewController {
     private FlightSelectView flightSelectView;
@@ -15,7 +15,13 @@ public class FlightSelectViewController {
         this.flightSelectView.getFlightSelection().requestFocus();
         airline = (String) this.flightSelectView.getFlightSelection().getSelectedItem();
         this.flightSelectView.getFlightSelection().addActionListener(e -> updateTextSemantics());
-        this.flightSelectView.getChoose().addActionListener(e -> bookFlightSemantics());
+        this.flightSelectView.getChoose().addActionListener(e -> {
+            try {
+                bookFlightSemantics();
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        });
 
         this.flightSelectView.getFlightSelection().addKeyListener(new KeyListener() {
 
@@ -30,7 +36,20 @@ public class FlightSelectViewController {
                     flightDetails = new JFrame();
                     FlightDetailView flightDetailView = null;
                     try {
-                        flightDetailView = new FlightDetailView(flightDetails, flightSelectView, flightSelectView.getClientSocket());
+
+                        flightSelectView.getSocketWriter().writeObject(flightSelectView.getFlightSelection().getSelectedItem());
+                        flightSelectView.getSocketWriter().flush();
+                        boolean gotData = false;
+                        Airline airline = null;
+                        while (!gotData && airline == null) {
+                            try {
+                                airline = (Airline) flightSelectView.getSocketReader().readObject();
+                                gotData = true;
+                            } catch (EOFException eof) {
+                                eof.printStackTrace();
+                            }
+                        }
+                        flightDetailView = new FlightDetailView(flightDetails, flightSelectView, flightSelectView.getClientSocket(), airline);
                     } catch (IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
@@ -65,12 +84,19 @@ public class FlightSelectViewController {
         this.flightSelectView.getAirlineDetail().setText(details);
     }
 
-    public void bookFlightSemantics() {
+    public void bookFlightSemantics() throws IOException {
+
+        this.flightSelectView.getSocketWriter().writeObject("final");
+
+        String a = (String) this.flightSelectView.getFlightSelection().getSelectedItem();
+
+        this.flightSelectView.getSocketWriter().writeObject(a);
 
         this.mainFrame.getContentPane().removeAll();
         FlightBookView flightBookView = new FlightBookView(flightSelectView, new Alaska(), this.flightSelectView.getClientSocket());
         new FlightBookViewController(this.mainFrame, flightBookView);
         this.mainFrame.setContentPane(flightBookView.getMainPanel());
+
     }
 
     public void exitButtonSemantics() {

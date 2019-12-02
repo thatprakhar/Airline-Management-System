@@ -37,8 +37,10 @@ public class FlightSelectViewController {
                     FlightDetailView flightDetailView = null;
                     try {
 
+
                         flightSelectView.getSocketWriter().writeObject(flightSelectView.getFlightSelection().getSelectedItem());
                         flightSelectView.getSocketWriter().flush();
+
                         boolean gotData = false;
                         Airline airline = null;
                         while (!gotData && airline == null) {
@@ -49,7 +51,7 @@ public class FlightSelectViewController {
                                 eof.printStackTrace();
                             }
                         }
-                        flightDetailView = new FlightDetailView(flightDetails, flightSelectView, flightSelectView.getClientSocket(), airline);
+                        flightDetailView = new FlightDetailView(flightDetails, flightSelectView, airline);
                     } catch (IOException | ClassNotFoundException ex) {
                         ex.printStackTrace();
                     }
@@ -85,12 +87,13 @@ public class FlightSelectViewController {
     }
 
     public void bookFlightSemantics() throws IOException {
-
-        this.flightSelectView.getSocketWriter().writeObject("final");
+        flightSelectView.getSocketWriter().writeObject("final");
+        flightSelectView.getSocketWriter().flush();
 
         String a = (String) this.flightSelectView.getFlightSelection().getSelectedItem();
 
-        this.flightSelectView.getSocketWriter().writeObject(a);
+        flightSelectView.getSocketWriter().writeObject(a);
+        flightSelectView.getSocketWriter().flush();
 
         this.mainFrame.getContentPane().removeAll();
         FlightBookView flightBookView = new FlightBookView(flightSelectView, new Alaska(), this.flightSelectView.getClientSocket());

@@ -4,9 +4,6 @@ import java.net.Socket;
 
 public class FirstView {
     private JPanel panel;
-    private JLabel jLabel;
-    private JLabel imageLabel;
-    private JPanel lowerPanel;
     private JButton exitButton;
     private JButton bookAFlightButton;
     private Socket clientSocket;
@@ -20,11 +17,11 @@ public class FirstView {
     public void createGUI() {
         //initialising the panels
         this.panel = new JPanel(new BorderLayout());
-        this.lowerPanel = new JPanel(new BorderLayout());
+        JPanel lowerPanel = new JPanel(new BorderLayout());
 
         // assigning the components
-        this.jLabel = new JLabel("<html> <b> <font size=\"8\">Welcome to Purdue Airline Management System </font> </b></html>");
-        this.imageLabel = new JLabel(new ImageIcon("Unknown.png"));
+        JLabel jLabel = new JLabel("<html> <b> <font size=\"8\">Welcome to Purdue Airline Management System </font> </b></html>");
+        JLabel imageLabel = new JLabel(new ImageIcon("Unknown.png"));
         this.bookAFlightButton = new JButton("Book a flight");
         this.exitButton = new JButton("Exit");
 

@@ -11,11 +11,11 @@ public class RequestHandler implements Runnable {
     private final Southwest southwest;
 
 
-    public RequestHandler(Socket clientSocket) {
+    public RequestHandler(Socket clientSocket, ReservationServer reservationServer) {
         this.clientSocket = clientSocket;
-        alaska = new Alaska();
-        delta = new Delta();
-        southwest = new Southwest();
+        alaska = reservationServer.getAlaska();
+        delta = reservationServer.getDelta();
+        southwest = reservationServer.getSouthwest();
     }
 
     @Override
@@ -71,6 +71,7 @@ public class RequestHandler implements Runnable {
                     eof.printStackTrace();;
                 }
             }
+            System.out.println(airline);
             gotData = false;
             String firstName = null;
             String lastName = null;
@@ -101,28 +102,40 @@ public class RequestHandler implements Runnable {
 
             while (!gotData) {
                 try {
-                    age = (int) socketReader.readObject();
+                    age = Integer.parseInt((String) socketReader.readObject());
                     gotData = true;
                 } catch (EOFException e) {
                     e.printStackTrace();
                 }
             }
 
+            System.out.println(firstName + " " + lastName + " added");
+
             Passenger passenger = new Passenger(firstName, lastName, age);
+            System.out.println("Created a new passenger");
+            BoardingPass boardingPass = new BoardingPass(airline, firstName + " " + lastName, age,'A', 12);
+            passenger.setBoardingPass(boardingPass);
 
             switch (airline) {
                 case "Alaska":
+                    System.out.println("Writing in alaska");
                     alaska.addPassenger(passenger);
                     break;
                 case "Delta":
+                    System.out.println("Writing in delta");
                     delta.addPassenger(passenger);
                     break;
                 case "Southwest":
+                    System.out.println("Writing in southwest");
                     southwest.addPassenger(passenger);
                     break;
             }
+            socketReader.close();
+            socketWriter.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
+
+
     }
 }

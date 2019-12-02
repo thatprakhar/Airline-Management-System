@@ -96,7 +96,7 @@ public class FlightSelectViewController {
         flightSelectView.getSocketWriter().flush();
 
         this.mainFrame.getContentPane().removeAll();
-        FlightBookView flightBookView = new FlightBookView(flightSelectView, new Alaska(), this.flightSelectView.getClientSocket());
+        FlightBookView flightBookView = new FlightBookView(flightSelectView, new Alaska());
         new FlightBookViewController(this.mainFrame, flightBookView);
         this.mainFrame.setContentPane(flightBookView.getMainPanel());
 

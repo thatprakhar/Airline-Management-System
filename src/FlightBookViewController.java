@@ -19,12 +19,12 @@ public class FlightBookViewController {
     }
 
     public void Book() throws IOException {
-        Passenger p = new Passenger(this.flightBookView.getFirstNameField().getText(), this.flightBookView.getLastNameField().getText(), Integer.parseInt(this.flightBookView.getAgeField().getText()));
-        this.flightBookView.getAirline().addPassenger(p);
-        this.mainFrame.getContentPane().removeAll();
-        FirstView firstView = new FirstView(this.flightBookView.getSocket());
-        new FirstViewController(mainFrame, firstView);
+        this.flightBookView.getFlightSelectView().getSocketWriter().writeObject(this.flightBookView.getFirstNameField().getText());
+        this.flightBookView.getFlightSelectView().getSocketWriter().writeObject(this.flightBookView.getLastNameField().getText());
+        this.flightBookView.getFlightSelectView().getSocketWriter().writeObject(this.flightBookView.getAgeField().getText());
 
-        this.mainFrame.setContentPane(firstView.getPanel());
+        this.mainFrame.getContentPane().removeAll();
+        this.mainFrame.setVisible(false);
+
     }
 }

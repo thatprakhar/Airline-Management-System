@@ -17,17 +17,19 @@ public class FlightSelectView {
     private JButton choose;
     private JPanel midPanel;
     private Socket clientSocket;
-    public ObjectOutputStream socketWriter;
-    public ObjectInputStream socketReader;
+    private ObjectInputStream socketReader;
+    private ObjectOutputStream socketWriter;
+
 
     public FlightSelectView(Socket clientSocket) throws IOException {
         this.clientSocket = clientSocket;
-        socketReader = new ObjectInputStream(clientSocket.getInputStream());
-        socketWriter = new ObjectOutputStream(clientSocket.getOutputStream());
+        socketWriter = new ObjectOutputStream(this.clientSocket.getOutputStream());
+        socketReader = new ObjectInputStream(this.clientSocket.getInputStream());
         createGUI();
     }
 
     public void createGUI() {
+
         //initialising the panels
         this.mainPanel = new JPanel(new BorderLayout());
         this.lowerPanel = new JPanel(new BorderLayout());
@@ -82,11 +84,11 @@ public class FlightSelectView {
         return clientSocket;
     }
 
-    public ObjectInputStream getSocketReader() {
-        return this.socketReader;
-    }
-
     public ObjectOutputStream getSocketWriter() {
         return socketWriter;
+    }
+
+    public ObjectInputStream getSocketReader() {
+        return socketReader;
     }
 }

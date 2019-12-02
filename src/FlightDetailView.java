@@ -15,11 +15,11 @@ public class FlightDetailView {
     private JTextArea passengerView;
     private JButton exit;
     private FlightSelectView flightSelectView;
-    private Socket clientSocket;
 
 
-    public FlightDetailView(JFrame mainFrame, FlightSelectView flightSelectView, Socket clientSocket, Airline airline) throws IOException, ClassNotFoundException {
-        this.clientSocket = clientSocket;
+
+    public FlightDetailView(JFrame mainFrame, FlightSelectView flightSelectView, Airline airline) throws IOException, ClassNotFoundException {
+
         this.mainFrame = mainFrame;
         this.flightSelectView = flightSelectView;
         this.airlineName = new JLabel((String) flightSelectView.getFlightSelection().getSelectedItem());
@@ -74,7 +74,4 @@ public class FlightDetailView {
         return this.mainFrame;
     }
 
-    public Socket getClientSocket() {
-        return this.clientSocket;
-    }
 }

@@ -21,14 +21,16 @@ public class RequestHandler implements Runnable {
     @Override
     public void run() {
         try {
-            ObjectInputStream socketReader = new ObjectInputStream(clientSocket.getInputStream());
             ObjectOutputStream socketWriter = new ObjectOutputStream(clientSocket.getOutputStream());
+            ObjectInputStream socketReader = new ObjectInputStream(clientSocket.getInputStream());
+
             String airline = "";
             String finalFlight;
             boolean gotData = false;
             boolean gotFinalFlight = false;
 
             while (!gotFinalFlight) {
+                gotData = false;
                 while (!gotData) {
                     try {
                         airline = (String) socketReader.readObject();
@@ -56,7 +58,7 @@ public class RequestHandler implements Runnable {
                         gotFinalFlight = true;
                         break;
                 }
-                socketWriter.flush();
+
             }
 
 

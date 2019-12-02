@@ -1,7 +1,4 @@
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
+import java.io.*;
 import java.util.ArrayList;
 
 public final class Alaska implements Airline {
@@ -49,9 +46,34 @@ public final class Alaska implements Airline {
 
     @Override
     public void writeIntoFile(Passenger p) throws IOException {
+        BufferedReader bfr = new BufferedReader(new FileReader(file));
+        ArrayList<String> strings = new ArrayList<String>();
+
+        String s = "";
+
+        while (s != null) {
+            try {
+                s = bfr.readLine();
+                strings.add(s);
+                if (s.contains("ALASKA")) {
+                    strings.add(p.toString());
+                }
+            } catch (NullPointerException n) {
+                break;
+            }
+
+        }
+        bfr.close();
+
         BufferedWriter bfw  = new BufferedWriter(new FileWriter(file));
-        bfw.write(p.toString());
-        bfw.flush();
+        String f = "";
+        for (String str : strings) {
+            f += str + "\n";
+
+        }
+
+        bfw.write(f);
+        bfw.close();
         bfw.close();
     }
 

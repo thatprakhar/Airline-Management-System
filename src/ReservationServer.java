@@ -32,7 +32,7 @@ public class ReservationServer {
 
                 break;
             } //end try catch
-            handler = new RequestHandler(clientSocket);
+            handler = new RequestHandler(clientSocket, this);
 
             handlerThread = new Thread(handler);
 
@@ -44,6 +44,15 @@ public class ReservationServer {
         } //end while
     } //serveClients
 
+    public Alaska getAlaska() {
+        return alaska;
+    }
 
+    public Delta getDelta() {
+        return delta;
+    }
 
+    public Southwest getSouthwest() {
+        return southwest;
+    }
 }

@@ -1,6 +1,9 @@
 import javax.swing.*;
 import javax.swing.border.Border;
 import java.awt.*;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.nio.ByteOrder;
 import java.util.function.BiPredicate;
@@ -18,16 +21,20 @@ public class FlightBookView {
     private JTextField ageField;
     private Airline airline;
     private JButton book;
-    private Socket socket;
+
+
+
 
     public JTextField getFirstNameField() {
         return firstNameField;
     }
 
-    public FlightBookView(FlightSelectView flightSelectView, Airline airline, Socket socket) {
-        this.socket = socket;
+    public FlightBookView(FlightSelectView flightSelectView, Airline airline) throws IOException {
+
         this.airline = airline;
         this.flightSelectView = flightSelectView;
+
+
         createGUI();
     }
 
@@ -79,7 +86,7 @@ public class FlightBookView {
         return flightSelectView;
     }
 
-    public Socket getSocket() {
-        return socket;
-    }
+
+
+
 }

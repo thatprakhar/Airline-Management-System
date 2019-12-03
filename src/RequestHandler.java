@@ -65,7 +65,7 @@ public class RequestHandler implements Runnable {
                         e.printStackTrace();
                     }
                 }
-                System.out.println(airline);
+
 
                 switch (airline) {
                     case "Alaska":
@@ -129,7 +129,6 @@ public class RequestHandler implements Runnable {
             }
 
 
-            System.out.println(airline);
             gotData = false;
             String firstName = null;
             String lastName = null;
@@ -170,28 +169,26 @@ public class RequestHandler implements Runnable {
             }
 
 
-            System.out.println(firstName + " " + lastName + " added");
-
             Passenger passenger = new Passenger(firstName, lastName, age);
-            System.out.println("Created a new passenger");
+
             BoardingPass boardingPass = new BoardingPass(airline, firstName + " " + lastName, age, gate);
             passenger.setBoardingPass(boardingPass);
 
 
             switch (airline) {
                 case "Alaska":
-                    System.out.println("Writing in alaska");
+
                     alaska.addPassenger(passenger);
                     socketWriter.writeObject(alaska);
 
                     break;
                 case "Delta":
-                    System.out.println("Writing in delta");
+
                     delta.addPassenger(passenger);
                     socketWriter.writeObject(delta);
                     break;
                 case "Southwest":
-                    System.out.println("Writing in southwest");
+
                     southwest.addPassenger(passenger);
                     socketWriter.writeObject(southwest);
                     break;
@@ -202,11 +199,11 @@ public class RequestHandler implements Runnable {
             String str = "refresh";
 
             while (!str.equals("exit")) {
-                System.out.println("going in loop");
+
                 gotData = false;
                 while (!gotData) {
                     try {
-                        System.out.println("getting data");
+
                         str = (String) socketReader.readObject();
                         gotData = true;
                     } catch (EOFException e) {
@@ -216,26 +213,26 @@ public class RequestHandler implements Runnable {
                 if (str.equals("refresh")) {
                     switch (airline) {
                         case "Alaska":
-                            System.out.println("Writing in alaska");
+
                             alaska.readFromFile(alaska.getFile());
                             socketWriter.writeObject(alaska.returnPassengerList());
                             for (String p : alaska.returnPassengerList()) {
-                                System.out.println(p);
+
                             }
-                            System.out.println("refreshed");
+
 
                             break;
                         case "Delta":
-                            System.out.println("Writing in delta");
+
                             delta.readFromFile(delta.getFile());
                             socketWriter.writeObject(delta.returnPassengerList());
-                            System.out.println("refreshed");
+
                             break;
                         case "Southwest":
-                            System.out.println("Writing in southwest");
+
                             southwest.readFromFile(southwest.getFile());
                             socketWriter.writeObject(southwest.returnPassengerList());
-                            System.out.println("refreshed");
+
                             break;
                     }
                 }

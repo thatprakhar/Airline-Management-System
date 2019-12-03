@@ -12,33 +12,35 @@ import java.io.IOException;
  * @author Prakhar Nahar, Vivek Natarajan
  * @version 12/3/19
  */
-public class FlightSelectViewController {
-    private FlightSelectView flightSelectView;
+
+public class FlightConfirmationViewController {
+    private FlightConfirmationView flightConfirmationView;
     private JFrame mainFrame;
     private JFrame flightDetails;
-    private String airline;
+    private FlightSelectView flightSelectView;
 
-    public FlightSelectViewController(JFrame mainFrame, FlightSelectView flightSelectView) {
-        this.flightSelectView = flightSelectView;
-        this.mainFrame = mainFrame;
-        this.flightSelectView.getFlightSelection().requestFocus();
-        airline = (String) this.flightSelectView.getFlightSelection().getSelectedItem();
-        this.flightSelectView.getFlightSelection().addActionListener(e -> {
+
+    public FlightConfirmationViewController(JFrame jFrame, FlightConfirmationView flightConfirmationView) {
+        this.flightSelectView = flightConfirmationView.getFlightSelectView();
+        this.mainFrame = jFrame;
+        this.flightConfirmationView = flightConfirmationView;
+        this.flightConfirmationView.getConfirmFlight().addActionListener(e -> {
             try {
-                updateTextSemantics();
+                BookFlight();
             } catch (IOException ex) {
                 ex.printStackTrace();
             }
         });
-        this.flightSelectView.getChoose().addActionListener(e -> {
+        this.flightConfirmationView.getExit().addActionListener(ge -> exit());
+        this.flightConfirmationView.getChangeFLight().addActionListener(c -> {
             try {
-                bookFlightSemantics();
-            } catch (IOException ex) {
-                ex.printStackTrace();
+                change();
+            } catch (IOException | ClassNotFoundException e) {
+                e.printStackTrace();
             }
         });
 
-        this.flightSelectView.getFlightSelection().addKeyListener(new KeyListener() {
+        this.flightConfirmationView.getConfirmFlight().addKeyListener(new KeyListener() {
 
             @Override
             public void keyTyped(KeyEvent e) {
@@ -51,7 +53,6 @@ public class FlightSelectViewController {
                     flightDetails = new JFrame();
                     FlightDetailView flightDetailView = null;
                     try {
-
 
                         flightSelectView.getSocketWriter().writeObject(
                                 flightSelectView.getFlightSelection().getSelectedItem());
@@ -85,39 +86,36 @@ public class FlightSelectViewController {
 
             }
         });
-        this.flightSelectView.getExit().addActionListener(e -> exitButtonSemantics());
-        this.flightSelectView.getFlightSelection().requestFocus();
 
+        this.flightConfirmationView.getConfirmFlight().requestFocus();
     }
 
-    public void updateTextSemantics() throws IOException {
-        String details;
-        String flight = (String) this.flightSelectView.getFlightSelection().getSelectedItem();
-        assert flight != null;
-        if (flight.equals("Delta")) {
-            details = new Delta().airlineDetails();
-        } else if (flight.equals("Alaska")) {
-            details = new Alaska().airlineDetails();
-        } else {
-            details = new Southwest().airlineDetails();
-        }
+    public void BookFlight() throws IOException {
+        this.flightConfirmationView.getFlightSelectView().getSocketWriter().writeObject("final");
+        this.flightConfirmationView.getFlightSelectView().getSocketWriter().flush();
 
-        this.flightSelectView.getAirlineDetail().setText(details);
-    }
+        String a = (String) this.flightConfirmationView.getFlightSelectView().getFlightSelection().getSelectedItem();
 
-    public void bookFlightSemantics() throws IOException {
+        this.flightConfirmationView.getFlightSelectView().getSocketWriter().writeObject(a);
+        this.flightConfirmationView.getFlightSelectView().getSocketWriter().flush();
+
         this.mainFrame.getContentPane().removeAll();
-        FlightConfirmationView flightConfirmationView = new FlightConfirmationView(this.flightSelectView);
-        new FlightConfirmationViewController(this.mainFrame, flightConfirmationView);
-        this.mainFrame.setContentPane(flightConfirmationView.getjPanel());
-        flightConfirmationView.getConfirmFlight().requestFocus();
+        FlightBookView flightBookView = new FlightBookView(this.flightConfirmationView.getFlightSelectView(), a);
+        new FlightBookViewController(this.mainFrame, flightBookView);
+        this.mainFrame.setContentPane(flightBookView.getMainPanel());
+
     }
 
-    public void exitButtonSemantics() {
+    public void exit() {
         this.mainFrame.setVisible(false);
     }
 
-    public JFrame getFlightDetails() {
-        return flightDetails;
+    public void change() throws IOException, ClassNotFoundException {
+        this.mainFrame.getContentPane().removeAll();
+        this.flightConfirmationView.getFlightSelectView().getSocketWriter().writeObject("change");
+        FlightSelectView flightSelectView =
+                new FlightSelectView(this.flightConfirmationView.getFlightSelectView().getDataExchanger());
+        new FlightSelectViewController(this.mainFrame, flightSelectView);
+        this.mainFrame.setContentPane(flightSelectView.getMainPanel());
     }
 }

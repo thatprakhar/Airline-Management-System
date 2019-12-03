@@ -3,6 +3,14 @@ import java.awt.*;
 import java.net.Socket;
 
 
+/**
+ * Project 5, CS 180
+ * Airline Management System
+ *
+ * @author Prakhar Nahar, Vivek Natarajan
+ * @version 12/3/19
+ */
+
 public class SecondView {
     private JPanel panel1;
     private JLabel jLabel;
@@ -10,9 +18,11 @@ public class SecondView {
     private JButton yesIWantToButton;
     private JPanel lowerPanel;
     private Socket clientSocket;
+    private ResponseListener dataExchanger;
 
-    public SecondView(Socket clientSocket) {
-        this.clientSocket = clientSocket;
+    public SecondView(ResponseListener dataExchanger) {
+        this.dataExchanger = dataExchanger;
+        this.clientSocket = dataExchanger.getSocket();
         createGUI();
     }
 
@@ -20,12 +30,13 @@ public class SecondView {
         //initialising the panels
         this.panel1 = new JPanel(new BorderLayout());
         this.lowerPanel = new JPanel(new BorderLayout());
-        this.panel1.setSize(600,600);
+        this.panel1.setSize(600, 600);
 
         //assigning the components
         this.yesIWantToButton = new JButton("Yes, I want to book a flight today");
         this.exitButton = new JButton("Exit.");
-        this.jLabel = new JLabel("<html> <b> <font size = \"8\"> Do you want to book a flight today? </font> </b> </html>");
+        this.jLabel = new JLabel("<html> <b> <font size = \"8\"> " +
+                "Do you want to book a flight today? </font> </b> </html>");
 
         //addigng the components
         panel1.add(jLabel, BorderLayout.NORTH);
@@ -47,7 +58,7 @@ public class SecondView {
         return yesIWantToButton;
     }
 
-    public Socket getClientSocket() {
-        return clientSocket;
+    public ResponseListener getDataExchanger() {
+        return dataExchanger;
     }
 }

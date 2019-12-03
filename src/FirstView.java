@@ -2,15 +2,26 @@ import javax.swing.*;
 import java.awt.*;
 import java.net.Socket;
 
+
+/**
+ * Project 5, CS 180
+ * Airline Management System
+ *
+ * @author Prakhar Nahar, Vivek Natarajan
+ * @version 12/3/19
+ */
+
 public class FirstView {
     private JPanel panel;
     private JButton exitButton;
     private JButton bookAFlightButton;
+    private ResponseListener dataExchanger;
     private Socket clientSocket;
 
 
-    public FirstView(Socket clientSocket) {
-        this.clientSocket = clientSocket;
+    public FirstView(ResponseListener dataExchanger) {
+        this.dataExchanger = dataExchanger;
+        this.clientSocket = dataExchanger.getSocket();
         createGUI();
     }
 
@@ -20,8 +31,9 @@ public class FirstView {
         JPanel lowerPanel = new JPanel(new BorderLayout());
 
         // assigning the components
-        JLabel jLabel = new JLabel("<html> <b> <font size=\"8\">Welcome to Purdue Airline Management System </font> </b></html>");
-        JLabel imageLabel = new JLabel(new ImageIcon("Unknown.png"));
+        JLabel jLabel = new JLabel("<html> <b> <font size=\"8\">Welcome to " +
+                "Purdue Airline Management System </font> </b></html>");
+        JLabel imageLabel = new JLabel(new ImageIcon("src/Unknown.png"));
         this.bookAFlightButton = new JButton("Book a flight");
         this.exitButton = new JButton("Exit");
 
@@ -49,5 +61,9 @@ public class FirstView {
 
     public Socket getClientSocket() {
         return clientSocket;
+    }
+
+    public ResponseListener getDataExchanger() {
+        return dataExchanger;
     }
 }

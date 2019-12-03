@@ -2,6 +2,14 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+
+/**
+ * Project 5, CS 180
+ * Airline Management System
+ *
+ * @author Prakhar Nahar, Vivek Natarajan
+ * @version 12/3/19
+ */
 public class ReservationServer {
 
     private ServerSocket serverSocket;

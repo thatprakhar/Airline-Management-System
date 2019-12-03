@@ -1,11 +1,18 @@
 import java.io.Serializable;
 
 
+/**
+ * Project 5, CS 180
+ * Airline Management System
+ *
+ * @author Prakhar Nahar, Vivek Natarajan
+ * @version 12/3/19
+ */
 public class Gate implements Serializable {
-    private char terminal;
+    private String terminal;
     private int gate;
 
-    public Gate(char terminal) {
+    public Gate(String terminal) {
         this.terminal = terminal;
         gate = (int) (Math.random() * 17) + 1;
     }
@@ -14,15 +21,19 @@ public class Gate implements Serializable {
         this.gate = gate;
     }
 
-    public void setTerminal(char terminal) {
+    public void setTerminal(String terminal) {
         this.terminal = terminal;
     }
 
-    public char getTerminal() {
+    public String getTerminal() {
         return terminal;
     }
 
-    public int getGate() {
-        return gate;
+    public String getGate() {
+        return String.valueOf(gate);
+    }
+
+    public String toString() {
+        return terminal + gate;
     }
 }

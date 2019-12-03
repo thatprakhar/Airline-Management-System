@@ -1,13 +1,15 @@
 import javax.swing.*;
-import javax.swing.border.Border;
 import java.awt.*;
 import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
-import java.net.Socket;
-import java.nio.ByteOrder;
-import java.util.function.BiPredicate;
 
+
+/**
+ * Project 5, CS 180
+ * Airline Management System
+ *
+ * @author Prakhar Nahar, Vivek Natarajan
+ * @version 12/3/19
+ */
 public class FlightBookView {
     private JPanel jPanel;
 
@@ -19,47 +21,62 @@ public class FlightBookView {
     private JTextField lastNameField;
     private JLabel age;
     private JTextField ageField;
-    private Airline airline;
+    private String airline;
+    private JButton exit;
     private JButton book;
-
-
 
 
     public JTextField getFirstNameField() {
         return firstNameField;
     }
 
-    public FlightBookView(FlightSelectView flightSelectView, Airline airline) throws IOException {
+    public FlightBookView(FlightSelectView flightSelectView, String airline) throws IOException {
 
         this.airline = airline;
         this.flightSelectView = flightSelectView;
-
-
         createGUI();
     }
 
     public void createGUI() {
-        jPanel = new JPanel(new GridLayout(6,1));
+
+        jPanel = new JPanel(new GridLayout(5, 2));
+        JLabel jLabel = new JLabel("Please enter your details : ");
+        JPanel first = new JPanel(new GridLayout(1, 2));
         firstName = new JLabel("First name");
         firstNameField = new JTextField();
+        firstNameField.setPreferredSize(new Dimension(50, 18));
 
+        first.add(firstName);
+        first.add(firstNameField);
+
+
+        JPanel last = new JPanel(new GridLayout(1, 2));
         lastName = new JLabel(" Last name");
         lastNameField = new JTextField();
+        lastNameField.setPreferredSize(new Dimension(50, 18));
 
+        last.add(lastName);
+        last.add(lastNameField);
+
+        JPanel agePanel = new JPanel(new GridLayout(1, 2));
         age = new JLabel("Age");
         ageField = new JTextField();
+        ageField.setPreferredSize(new Dimension(50, 18));
 
+        agePanel.add(age);
+        agePanel.add(ageField);
+
+        JPanel buttonPanel = new JPanel(new FlowLayout());
+        exit = new JButton("Exit");
         book = new JButton("Book this flight");
-
-
-        jPanel.add(firstName);
-        jPanel.add(firstNameField);
-        jPanel.add(lastName);
-        jPanel.add(lastNameField);
-        jPanel.add(age);
-        jPanel.add(ageField);
-        jPanel.add(book);
-        jPanel.setSize(600,600);
+        buttonPanel.add(exit);
+        buttonPanel.add(book);
+        jPanel.add(jLabel);
+        jPanel.add(first);
+        jPanel.add(last);
+        jPanel.add(agePanel);
+        jPanel.add(buttonPanel);
+        jPanel.setSize(600, 600);
     }
 
     public JPanel getMainPanel() {
@@ -70,7 +87,7 @@ public class FlightBookView {
         return book;
     }
 
-    public Airline getAirline() {
+    public String getAirline() {
         return this.airline;
     }
 
@@ -86,7 +103,8 @@ public class FlightBookView {
         return flightSelectView;
     }
 
-
-
+    public JButton getExit() {
+        return this.exit;
+    }
 
 }

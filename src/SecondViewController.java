@@ -1,6 +1,15 @@
 import javax.swing.*;
 import java.io.IOException;
 
+
+/**
+ * Project 5, CS 180
+ * Airline Management System
+ *
+ * @author Prakhar Nahar, Vivek Natarajan
+ * @version 12/3/19
+ */
+
 public class SecondViewController {
     private JFrame jFrame;
     private SecondView secondView;
@@ -11,7 +20,7 @@ public class SecondViewController {
         this.secondView.getYesIWantToButton().addActionListener(e -> {
             try {
                 bookFLightSemantics();
-            } catch (IOException ex) {
+            } catch (IOException | ClassNotFoundException ex) {
                 ex.printStackTrace();
             }
         });
@@ -19,9 +28,9 @@ public class SecondViewController {
 
     }
 
-    public void bookFLightSemantics() throws IOException {
+    public void bookFLightSemantics() throws IOException, ClassNotFoundException {
         this.jFrame.getContentPane().removeAll();
-        FlightSelectView flightSelectView = new FlightSelectView(this.secondView.getClientSocket());
+        FlightSelectView flightSelectView = new FlightSelectView(this.secondView.getDataExchanger());
         new FlightSelectViewController(this.jFrame, flightSelectView);
         this.jFrame.setContentPane(flightSelectView.getMainPanel());
         flightSelectView.getFlightSelection().requestFocus();
